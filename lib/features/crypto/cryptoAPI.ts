@@ -6,6 +6,7 @@ export interface Prices {
   Symbol: string
   Close: number
   Change?: number
+  Prediction?: number
 }
 
 export const fetchPricesApi = async () => {
@@ -30,6 +31,6 @@ export const fetchPricesApi = async () => {
   return todayPrices.map((item) => {
     const yesterdayPrice = yesterdayPrices.find((y) => y.Symbol === item.Symbol)
     const change = yesterdayPrice ? (item.Close - yesterdayPrice.Close) / yesterdayPrice.Close : undefined
-    return { ...item, Change: change }
+    return { ...item, Change: change, Prediction: item.Close * (1 + (Math.random() * 20 - 10) / 100) }
   })
 }

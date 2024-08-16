@@ -61,7 +61,7 @@ export const Dashboard = () => {
           <TableColumn>Prediction</TableColumn>
         </TableHeader>
         <TableBody>
-          {prices?.map(({ Symbol, Close, Change }, index) => (
+          {prices?.map(({ Symbol, Close, Change, Prediction }, index) => (
             <TableRow key={index}>
               <TableCell>
                 <User
@@ -76,7 +76,9 @@ export const Dashboard = () => {
               <TableCell className={Change ? (Change > 0 ? 'text-emerald-400' : 'text-red-600') : ''}>
                 {Change ? `${(Math.round(Change * 100 * 100) / 100).toFixed(2)}%` : 'N/A'}
               </TableCell>
-              <TableCell>+ / -</TableCell>
+              <TableCell className={Prediction ? (Prediction > Close ? 'text-emerald-400' : 'text-red-600') : ''}>
+                {Prediction ? `${Math.round(Prediction).toFixed(2)}` : 'N/A'}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
