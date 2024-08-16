@@ -1,0 +1,19 @@
+repositories:
+- name: andytang
+  url: https://andytang-dev.github.io/helm-charts
+
+releases:
+- name: aasd4016
+  namespace: mldemo
+  chart: andytang/application
+  version: 0.1.4
+  values:
+  - deployment:
+      name: nginx
+      imageName: nginx
+      imageTag: 1.19.6
+      replicas: 1
+      containerPort: 80
+    ingress:
+      hostname: aasd4016.ml-demo.lol
+      tlsSecretName: wildcard-ml-demo-lol-cert
