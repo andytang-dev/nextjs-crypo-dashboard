@@ -61,5 +61,4 @@ jobs:
 
     - name: Helmfile sync
       run: |
-        cd frontend/k8s
         helmfile sync
