@@ -66,7 +66,7 @@ export const Dashboard = () => {
               <TableCell>
                 <User
                   name={Symbol}
-                  description={Symbol?.toUpperCase()}
+                  description={crypto[Symbol.toUpperCase()].name}
                   avatarProps={{
                     icon: <Image alt="Bitcoin" src={crypto[Symbol]?.icon} fill />,
                   }}
