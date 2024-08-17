@@ -6,7 +6,7 @@ releases:
 - name: aasd4016
   namespace: mldemo
   chart: andytang/application
-  version: 0.1.5
+  version: 0.1.6
   values:
   - deployment:
       name: nextjs-crypo-dashboard

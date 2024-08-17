@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { getLastTwoDates } from '@/lib/features/crypto/cryptoAPI'
 import AWS from 'aws-sdk'
 import moment from 'moment'
 
@@ -13,10 +14,7 @@ AWS.config.update({
 const dynamoDb = new AWS.DynamoDB.DocumentClient()
 
 export async function GET(request: NextRequest) {
-  const today = moment().utc().startOf('day').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
-  const yesterday = moment().utc().startOf('day').subtract(1, 'days').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
-
-  console.log('today:', today, yesterday)
+  const dates = getLastTwoDates()
 
   const params = {
     TableName: process.env.AWS_DYNAMODB_TABLE || '',
@@ -25,8 +23,8 @@ export async function GET(request: NextRequest) {
       '#date': 'Date',
     },
     ExpressionAttributeValues: {
-      ':today': today,
-      ':yesterday': yesterday,
+      ':today': dates[0].format('YYYY-MM-DDTHH:mm:ss') + 'Z',
+      ':yesterday': dates[1].format('YYYY-MM-DDTHH:mm:ss') + 'Z',
     },
   }
 

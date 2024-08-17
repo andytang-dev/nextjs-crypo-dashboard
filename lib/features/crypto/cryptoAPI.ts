@@ -1,5 +1,4 @@
 import moment from 'moment'
-import { it } from 'node:test'
 
 export interface Prices {
   Date: string
@@ -7,6 +6,14 @@ export interface Prices {
   Close: number
   Change?: number
   Prediction?: number
+}
+
+export const getLastTwoDates = () => {
+  if (moment().utc().hour() > 1) {
+    return [moment().utc().startOf('day'), moment().utc().startOf('day').subtract(1, 'days')]
+  } else {
+    return [moment().utc().startOf('day').subtract(1, 'days'), moment().utc().startOf('day').subtract(2, 'days')]
+  }
 }
 
 export const fetchPricesApi = async () => {
@@ -17,13 +24,12 @@ export const fetchPricesApi = async () => {
 
   const todayPrices: Prices[] = []
   const yesterdayPrices: Prices[] = []
+  const dates = getLastTwoDates()
 
   data.forEach((item: Prices) => {
-    if (item.Date.startsWith(moment().utc().startOf('day').format('YYYY-MM-DDTHH:mm:ss') + 'Z')) {
+    if (item.Date.startsWith(dates[0].format('YYYY-MM-DDTHH:mm:ss') + 'Z')) {
       todayPrices.push(item)
-    } else if (
-      item.Date.startsWith(moment().utc().startOf('day').subtract(1, 'days').format('YYYY-MM-DDTHH:mm:ss') + 'Z')
-    ) {
+    } else if (item.Date.startsWith(dates[1].format('YYYY-MM-DDTHH:mm:ss') + 'Z')) {
       yesterdayPrices.push(item)
     }
   })
